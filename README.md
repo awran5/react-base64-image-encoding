@@ -7,7 +7,7 @@ Free online base64 encoding support JPG, JPEG, PNG, GIF, WebP, BMP, SVG formats 
 <hr />
 
 <p align="center">
-  <img src="./screenshot.gif" alt="screenshot" />
+  <img src="./screenshot.jpg" alt="screenshot" />
 </p>
 
 ### Instructions
