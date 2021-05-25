@@ -1,38 +1,145 @@
-.App {
-  text-align: center;
+.bg-primary {
+  background-color: #7061a2 !important;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+a {
+  color: #ffd499;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+a:hover {
+  color: #fff;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.btn {
+  font-weight: 600;
+  color: #5c5776;
+  vertical-align: middle;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+.btn-white {
+  color: #18113c;
+  background-color: #fff;
+  border-color: #fff;
+}
+.btn-success {
+  color: #fff;
+  background-color: #19cb98;
+  border-color: #19cb98;
+}
+
+.drag-area {
+  min-height: 250px;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  display: flex;
+  background-color: #f7f7f7;
+  border: 3px dashed #dedede;
+  border-radius: 0.5rem;
+  transition: background-color, border-color 0.2s linear;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
+.drag-area h2 {
+  color: #dedede;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.drag-area:hover,
+.drag-area.draging {
+  background-color: #eeeeee;
+  border-color: #ad9fdb;
+}
+.drag-area:hover h2,
+.drag-area.draging h2 {
+  color: #c9c9c9;
+}
+
+.image-info {
+  padding: 0.25rem;
+  background-color: #f7f7f7;
+  margin-top: 1rem;
+}
+
+@media (min-width: 768px) {
+  .bd-clipboard {
+    display: block;
   }
-  to {
-    transform: rotate(360deg);
+}
+.bd-clipboard {
+  position: relative;
+  float: right;
+}
+
+.btn-clipboard {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  z-index: 10;
+  display: block;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.65em;
+  color: #0d6efd;
+  background-color: #fff;
+  border: 1px solid;
+  border-radius: 0.25rem;
+}
+
+.btn-clipboard:hover,
+.btn-clipboard:focus {
+  color: #fff;
+  background-color: #0d6efd;
+}
+
+.bd-clipboard + .highlight {
+  margin-top: 0;
+}
+
+@media (min-width: 576px) {
+  .highlight {
+    padding: 1rem 1.5rem;
   }
+}
+.highlight {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: #f8f9fa;
+}
+
+.highlight pre {
+  padding: 0;
+  margin-top: 0.65rem;
+  margin-bottom: 0.65rem;
+  white-space: pre;
+  background-color: transparent;
+  border: 0;
+}
+
+.highlight pre code {
+  font-size: inherit;
+  color: #212529;
+  word-wrap: normal;
+}
+
+.code-comment {
+  color: #d63384;
+}
+
+dd {
+  margin-bottom: 0.25rem;
+  margin-left: 0;
+  background-color: #fff;
+  padding: 0.25rem;
+}
+dt {
+  font-weight: 700;
+  background-color: #f1f1f1;
+  margin-bottom: 0.2rem;
+  padding: 0.25rem;
+}
+
+.img-thumbnail {
+  object-fit: contain;
 }

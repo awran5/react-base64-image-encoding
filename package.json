@@ -1,5 +1,5 @@
 {
-  "name": "base64",
+  "name": "react-base64-image-encoding",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

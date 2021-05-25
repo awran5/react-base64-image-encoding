@@ -1,46 +1,33 @@
-# Getting Started with Create React App
+# React base64-image Encoding
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Free online base64 encoding support JPG, JPEG, PNG, GIF, WebP, BMP, SVG formats (max. 1 MB).
 
-## Available Scripts
+🤔 Base64 encoded images are good for tiny images, small icons, logos in emails, other than that, using base64 images might actually kill your [performance](https://bunny.net/blog/why-optimizing-your-images-with-base64-is-almost-always-a-bad-idea/).
 
-In the project directory, you can run:
+<hr />
 
-### `yarn start`
+<p align="center">
+  <img src="./screenshot.gif" alt="screenshot" />
+</p>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Instructions
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Download or clone the repo:
 
-### `yarn test`
+```
+git clone https://github.com/awran5/react-base64-image-encoding.git
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Install
 
-### `yarn build`
+```bash
+# npm
+> cd react-base64-image-encoding
+> npm install
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Yarn
+> cd react-base64-image-encoding
+> yarn
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+### [Live](https://react-base64.vercel.app/)
