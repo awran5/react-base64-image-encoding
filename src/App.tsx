@@ -163,7 +163,22 @@ export function App() {
               onDragOver={handleDropOver}
               onDragLeave={handleDropLeave}
             >
-              <h2 className='fw-bold text-uppercase'>{draging ? 'Drop..' : 'Drag & drop images'}</h2>
+              <h2 className='fw-bold text-uppercase'>
+                {draging ? (
+                  <svg
+                    focusable='false'
+                    viewBox='0 0 24 24'
+                    aria-hidden='true'
+                    fill='currentColor'
+                    width='48'
+                    height='48'
+                  >
+                    <path d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z'></path>
+                  </svg>
+                ) : (
+                  'Drag & drop images'
+                )}
+              </h2>
               <input
                 accept='.gif,.jpg,.jpeg,.png,.gif,.bmp,.webp,.svg'
                 style={{ display: 'none' }}
