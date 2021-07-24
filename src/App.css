@@ -143,3 +143,10 @@ dt {
 .img-thumbnail {
   object-fit: contain;
 }
+
+.danger {
+  color: #dc3545;
+}
+.success {
+  color: #198754;
+}

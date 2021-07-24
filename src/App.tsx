@@ -1,20 +1,22 @@
-import React, { useState, useRef } from 'react'
+/* eslint-disable no-nested-ternary */
+import React, { useState, useRef, useReducer } from 'react'
 import './App.css'
 
 // SOF Answer
-function formatBytes(bytes: number, decimals = 2) {
+function formatBytes(bytes: number, decimals = 2): string {
   if (bytes === 0) return '0 Bytes'
 
   const k = 1024
   const dm = decimals < 0 ? 0 : decimals
   const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
   const i = Math.floor(Math.log(bytes) / Math.log(k))
+  const size = parseFloat((bytes / k ** i).toFixed(dm))
 
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i]
+  return `${size} ${sizes[i]}`
 }
 
 function base64Size(file: string) {
-  const size = Buffer.from(file.substring(file.indexOf(',') + 1)).length
+  const size = Buffer.from(file?.substring(file?.indexOf(',') + 1)).length
 
   return formatBytes(size)
 }
@@ -24,63 +26,95 @@ const initialValues = {
   type: '',
   sizeBefore: '',
   sizeAfter: '',
-  base64: '',
+  base64: ''
+}
+
+type State = {
+  draging: boolean
+}
+
+type Action = { type: 'dragover' } | { type: 'dragleave' }
+
+function reducer(state: State, action: Action) {
+  switch (action.type) {
+    case 'dragover':
+      return {
+        draging: true
+      }
+    case 'dragleave':
+      return {
+        draging: false
+      }
+    default:
+      return state
+  }
 }
 
 export function App() {
-  const [draging, setDraging] = useState(false)
   const [imageInfo, setImageInfo] = useState(initialValues)
-  const [error, setError] = useState('')
+  const [{ draging }, dispatch] = useReducer(reducer, {
+    draging: false
+  })
+
+  const error = useRef('')
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const handleCopy = (event: React.MouseEvent<HTMLButtonElement>, text: string) => {
-    const button = event.target as HTMLInputElement
+  const handleCopy = async (event: React.MouseEvent<HTMLButtonElement>, text: string) => {
+    const button = event.currentTarget
 
     if (!navigator.clipboard) return
 
-    navigator.clipboard.writeText(text).then(
-      () => (button.innerText = 'copied'),
-      () => console.error('Could not copy the text')
-    )
-    setTimeout(() => (button.innerText = 'copy'), 1000)
+    try {
+      await navigator.clipboard.writeText(text)
+      button.innerText = 'copied'
+    } catch (err) {
+      console.error(`Could not copy the text ${err}`)
+    }
+
+    setTimeout(() => {
+      button.innerText = 'copy'
+    }, 1000)
   }
 
   function handleImages(file: File) {
-    setDraging(false)
-
     if (!file) return
 
+    error.current = ''
+    dispatch({ type: 'dragleave' })
+    const { name, type, size } = file
+
     // Check supported formats
-    if (!file.type.match('image.*')) {
-      setError('Failed: File is not supported.')
+    if (!type.match('image.*')) {
+      error.current = 'Failed: File is not supported.'
       return
     }
 
-    // Check max size (1 M in Bytes)
-    if (file.size > 1048576) {
-      setError('Faild: Maximum file size is 1 MB')
+    // Check max size (1M in Bytes)
+    if (size > 1048576) {
+      error.current = 'Faild: Maximum file size is 1 MB'
       return
     }
-
-    setError('')
-    setImageInfo(initialValues)
 
     const fileReader = new FileReader()
 
-    fileReader.onerror = () => setError('Failed to read file!\n\n' + fileReader.error)
+    fileReader.onerror = (err) => {
+      error.current = `Failed to read file!\n\n ${err}`
+      return err
+    }
 
     fileReader.onload = () => {
       const base64 = fileReader.result as string
+      const sizeBefore = formatBytes(size)
+      const sizeAfter = base64Size(base64)
 
       setImageInfo({
-        name: file.name,
-        type: file.type,
-        sizeBefore: formatBytes(file.size),
-        sizeAfter: base64Size(base64),
-        base64,
+        name,
+        type,
+        sizeBefore,
+        sizeAfter,
+        base64
       })
     }
-
     fileReader.readAsDataURL(file)
   }
 
@@ -97,24 +131,22 @@ export function App() {
     handleImages(fileList[0])
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileList = e.target.files
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const fileList = event.target.files
 
     if (!fileList) return
 
     handleImages(fileList[0])
   }
 
-  const handleDropLeave = (e: React.DragEvent<HTMLInputElement>) => {
-    e.preventDefault()
-
-    setDraging(false)
+  const handleDropLeave = (event: React.DragEvent<HTMLInputElement>) => {
+    event.preventDefault()
+    dispatch({ type: 'dragleave' })
   }
 
-  const handleDropOver = (e: React.DragEvent<HTMLInputElement>) => {
-    e.preventDefault()
-
-    setDraging(true)
+  const handleDropOver = (event: React.DragEvent<HTMLInputElement>) => {
+    event.preventDefault()
+    dispatch({ type: 'dragover' })
   }
 
   return (
@@ -162,6 +194,8 @@ export function App() {
               onDrop={handleDrop}
               onDragOver={handleDropOver}
               onDragLeave={handleDropLeave}
+              role='application'
+              aria-hidden='true'
             >
               <h2 className='fw-bold text-uppercase'>
                 {draging ? (
@@ -173,7 +207,7 @@ export function App() {
                     width='48'
                     height='48'
                   >
-                    <path d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z'></path>
+                    <path d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z' />
                   </svg>
                 ) : (
                   'Drag & drop images'
@@ -188,7 +222,7 @@ export function App() {
               />
             </div>
 
-            {error ? (
+            {error.current ? (
               <div className='alert alert-danger d-flex align-items-center mt-4' role='alert'>
                 <svg
                   className='bi flex-shrink-0 me-2'
@@ -199,9 +233,9 @@ export function App() {
                   aria-label='Danger'
                   fill='currentColor'
                 >
-                  <path d='M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z'></path>
+                  <path d='M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z' />
                 </svg>
-                <div>{error}</div>
+                <div>{error.current}</div>
               </div>
             ) : imageInfo.base64 ? (
               <div className='mt-5 result'>
@@ -257,7 +291,11 @@ export function App() {
                     <dd className='col-sm-9'>{imageInfo.sizeBefore}</dd>
 
                     <dt className='col-sm-3'>Base64 Size</dt>
-                    <dd className='col-sm-9'>{imageInfo.sizeAfter}</dd>
+                    <dd className='col-sm-9 '>
+                      <span className={imageInfo.sizeAfter > imageInfo.sizeBefore ? 'danger' : 'success'}>
+                        {imageInfo.sizeAfter}
+                      </span>
+                    </dd>
                   </dl>
                 </div>
               </div>
