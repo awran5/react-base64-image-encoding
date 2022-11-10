@@ -10,29 +10,8 @@ a:hover {
   color: #fff;
 }
 
-.btn {
-  font-weight: 600;
-  color: #5c5776;
-  vertical-align: middle;
-  padding: 0.75rem 1.25rem;
-  font-size: 0.875rem;
-  line-height: 1.6;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
-    box-shadow 0.15s ease-in-out;
-}
-.btn-white {
-  color: #18113c;
-  background-color: #fff;
-  border-color: #fff;
-}
-.btn-success {
-  color: #fff;
-  background-color: #19cb98;
-  border-color: #19cb98;
-}
-
 .drag-area {
-  min-height: 250px;
+  min-height: 300px;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -50,7 +29,7 @@ a:hover {
 .drag-area:hover,
 .drag-area.draging {
   background-color: #eeeeee;
-  border-color: #ad9fdb;
+  border-color: #7061a2;
 }
 .drag-area:hover h2,
 .drag-area.draging h2 {
@@ -69,58 +48,19 @@ a:hover {
   }
 }
 .bd-clipboard {
-  position: relative;
-  float: right;
+  position: absolute;
+  right: 0.25rem;
+  top: 0.25rem;
 }
 
 .btn-clipboard {
-  position: absolute;
-  top: 0.65rem;
-  right: 0.65rem;
-  z-index: 10;
-  display: block;
-  padding: 0.25rem 0.5rem;
   font-size: 0.65em;
-  color: #0d6efd;
-  background-color: #fff;
-  border: 1px solid;
-  border-radius: 0.25rem;
 }
 
 .btn-clipboard:hover,
 .btn-clipboard:focus {
   color: #fff;
   background-color: #0d6efd;
-}
-
-.bd-clipboard + .highlight {
-  margin-top: 0;
-}
-
-@media (min-width: 576px) {
-  .highlight {
-    padding: 1rem 1.5rem;
-  }
-}
-.highlight {
-  padding: 1rem;
-  margin-bottom: 1rem;
-  background-color: #f8f9fa;
-}
-
-.highlight pre {
-  padding: 0;
-  margin-top: 0.65rem;
-  margin-bottom: 0.65rem;
-  white-space: pre;
-  background-color: transparent;
-  border: 0;
-}
-
-.highlight pre code {
-  font-size: inherit;
-  color: #212529;
-  word-wrap: normal;
 }
 
 .code-comment {
@@ -142,6 +82,7 @@ dt {
 
 .img-thumbnail {
   object-fit: contain;
+  max-width: 75%;
 }
 
 .danger {
