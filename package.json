@@ -1,7 +1,7 @@
 {
   "name": "react-base64-image-encoding",
   "description": "React App for generating encoded Base64 images.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "awran5 <awran5@yahoo.com>",
   "private": false,
   "dependencies": {
